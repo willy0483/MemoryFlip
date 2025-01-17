@@ -50,6 +50,7 @@ export const MemoryGame = () => {
   //#region Timer
 
   const [startTimer, setStartTimer] = useState(false);
+
   const [count, setCount] = useState(0);
   const [time, setTime] = useState("00:00:00");
 
@@ -68,7 +69,6 @@ export const MemoryGame = () => {
     setTime(minute + ":" + second + ":" + milliseconds);
   };
 
-  // reset Timer
   const clearTime = () => {
     setTime("00:00:00");
     setCount(0);
@@ -108,24 +108,24 @@ export const MemoryGame = () => {
     if (clickCards.length < 2 && !matched.includes(index) && !flipped[index]) {
       // setter card index til clickCards arrayet så der kun kan ver klikket på 2 kort
       setClickCards([...clickCards, index]);
+      console.log(clickCards);
+      console.log(...clickCards);
 
       // bruger setTurns til at tælle
       setTurns(turns + 1);
-
-      setFlipped((prevFlipped) => {
-        // laver en new array med alle de flipped kort  ... er en spread operator som kopierer arrayet eller laver et nyt array
-        const newFlipped = [...prevFlipped];
-        // flipper kortet på index
-        // if newFlipped[index] is false, !newFlipped[index] will be true.
-        // if newFlipped[index] is true, !newFlipped[index] will be false.
-        newFlipped[index] = !newFlipped[index];
-        // returnerer den nye array
-        return newFlipped;
-      });
+      // laver en new array med alle de flipped kort  ... er en spread operator som kopierer arrayet eller laver et nyt array
+      const newFlipped = [...flipped];
+      // flipper kortet på index
+      // if newFlipped[index] is false, !newFlipped[index] will be true.
+      // if newFlipped[index] is true, !newFlipped[index] will be false.
+      newFlipped[index] = !newFlipped[index];
+      setFlipped(newFlipped);
 
       // tjekker om der er klikket på 2 kort
       // bruger setClickCards til at reset clickCards arrayet om det er et match eller ej
       if (clickCards.length > 0) {
+        // tjekker om det er et match
+        // bruger cards arrayet og index til at tjekke om det er et match
         if (cards[clickCards[0]].id === cards[index].id) {
           // hvis det er et match så tilføjer vi kortene til matched arrayet
           setMatched([...matched, clickCards[0], index]);
